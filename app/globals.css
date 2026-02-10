@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark Fantasy palette (based on your references) */
+  --obsidian: #0e0d0e;
+  --charcoal: #191916;
+  --antique-gold: #d9a961;
+  --bright-gold: #f4cb71;
+  --deep-plum: #4b2450;
+  --plum: #542d55;
+  --amethyst: #966c95;
+  --ember: #7a3a2b;
+  --bone: #f6eee3;
+  --moss: #354a28;
+  --bronze: #644f2e;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(1200px 600px at 50% -20%, rgba(217, 169, 97, 0.12), transparent 60%),
+              radial-gradient(900px 500px at 10% 20%, rgba(84, 45, 85, 0.16), transparent 55%),
+              radial-gradient(900px 500px at 90% 30%, rgba(53, 74, 40, 0.14), transparent 55%),
+              var(--obsidian);
+  color: var(--bone);
+  font-family: var(--font-body-inter), system-ui, sans-serif;
+}
+
+.divider-ornate {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(217,169,97,.6), transparent);
+}
+
+.divider-ornate::after {
+  content: "✦";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -55%);
+  color: rgba(244,203,113,.85);
+  font-size: 12px;
+  padding: 0 10px;
+  background: rgba(14,13,14,.85);
+  border: 1px solid rgba(217,169,97,.35);
+  border-radius: 999px;
+}
