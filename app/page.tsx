@@ -1,10 +1,17 @@
+// This is the Home page
+
 export default function HomePage() {
+  const tiles = [
+    { title: "Itinerary", desc: "Schedule and activities.", tone: "rgba(53, 74, 40, 0.5)" },
+    { title: "FAQ", desc: "Dress code, menu, and venue details.", tone: "rgba(84, 45, 85, 0.5)" },
+    { title: "Donations", desc: "Gifts and well-wishes.", tone: "rgba(217, 169, 97, 0.4)" },
+  ];
+
   return (
     <main className="min-h-screen px-4 py-10">
-      <div className="mx-auto w-full max-w-5xl">
-        {/* Frame */}
-        <section 
-          className="relative overflow-hidden rounded-3xl border border-[color:var(--antique-gold)]/40 bg-[color:var(--obsidian)]/70 shadow-2xl">
+      <div className="mx-auto w-full max-w-5xl space-y-8">
+        {/* HERO: Framed card (keep this as your “Save the Date” centerpiece) */}
+        <section className="relative overflow-hidden rounded-3xl border border-[color:var(--antique-gold)]/40 bg-[color:var(--obsidian)]/70 shadow-2xl">
           {/* subtle “velvet” grain */}
           <div
             className="pointer-events-none absolute inset-0 opacity-30"
@@ -14,19 +21,17 @@ export default function HomePage() {
             }}
           />
 
-          {/* corner filigree hints (simple CSS version) */}
+          {/* corner filigree hints */}
           <div className="pointer-events-none absolute left-6 top-6 h-14 w-14 rounded-tr-3xl border-t border-r border-[color:var(--bright-gold)]/50" />
           <div className="pointer-events-none absolute right-6 top-6 h-14 w-14 rounded-tl-3xl border-t border-l border-[color:var(--bright-gold)]/50" />
           <div className="pointer-events-none absolute left-6 bottom-6 h-14 w-14 rounded-br-3xl border-b border-r border-[color:var(--bright-gold)]/50" />
           <div className="pointer-events-none absolute right-6 bottom-6 h-14 w-14 rounded-bl-3xl border-b border-l border-[color:var(--bright-gold)]/50" />
 
           <div className="relative px-6 py-10 sm:px-10 sm:py-14">
-            {/* Top line */}
             <p className="text-center text-sm tracking-[0.35em] text-[color:var(--bright-gold)]/90">
               SAVE THE DATE
             </p>
 
-            {/* Names */}
             <h1
               className="mt-5 text-center text-4xl sm:text-6xl"
               style={{ fontFamily: "var(--font-display-cinzel)" }}
@@ -34,15 +39,13 @@ export default function HomePage() {
               Leo <span className="text-[color:var(--bright-gold)]">&amp;</span> Blaine
             </h1>
 
-            {/* Tagline */}
             <p className="mt-4 text-center text-lg text-[color:var(--bone)]/85">
               'Til death do us part
             </p>
 
-            {/* Divider */}
+            {/* Antique gold line break */}
             <div className="mx-auto mt-8 h-px w-40 bg-[color:var(--antique-gold)]/50" />
 
-            {/* Date + location */}
             <div className="mt-8 text-center">
               <p className="text-xl text-[color:var(--bright-gold)]">
                 Thursday, October 29th, 2026
@@ -52,7 +55,6 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* CTA buttons */}
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="/rsvp"
@@ -60,43 +62,64 @@ export default function HomePage() {
               >
                 RSVP
               </a>
-              {/* <a
-                href="/schedule"
-                className="inline-flex w-full max-w-xs items-center justify-center rounded-xl border border-[color:var(--bright-gold)]/30 bg-transparent px-6 py-3 text-sm tracking-wide text-[color:var(--bone)]/90 transition hover:border-[color:var(--bright-gold)]/60 hover:bg-white/5"
-              >
-                View Schedule
-              </a> */}
             </div>
 
-            {/* Feature tiles (theme hints) */}
-            <div className="mt-12 grid gap-4 sm:grid-cols-3">
-              {[
-                { title: "Itinerary", desc: "Schedule and  activities.", tone: "rgba(53, 74, 40, 0.5)" },
-                { title: "FAQ", desc: "Dress code, menu, and venue details.", tone: "rgba(84, 45, 85, 0.5)" },
-                { title: "Donations", desc: "Gifts and well-wishes.", tone: "rgba(217, 169, 97, 0.4)" },
-              ].map((card) => (
-                <div
-                  key={card.title}
-                  className="rounded-2xl border border-white/10 p-5"
-                  style={{ background: `linear-gradient(180deg, ${card.tone}, rgba(14,13,14,0.55))` }}
-                >
-                  <p
-                    className="text-lg text-[color:var(--bright-gold)]"
-                    style={{ fontFamily: "var(--font-display-cinzel)" }}
-                  >
-                    {card.title}
-                  </p>
-                  <p className="mt-2 text-sm text-[color:var(--bone)]/75">{card.desc}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Footer whisper */}
-            <p className="mt-12 text-center text-xs tracking-[0.35em] text-[color:var(--bone)]/45">
+            <p className="mt-10 text-center text-xs tracking-[0.35em] text-[color:var(--bone)]/45">
               A GRAVE DECISION…
             </p>
           </div>
         </section>
+
+        {/* OPEN SECTIONS: these are NOT inside the framed card */}
+        <section className="rounded-3xl border border-white/10 bg-black/15 p-6 sm:p-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm tracking-[0.35em] text-[color:var(--bright-gold)]/80">
+              QUICK LINKS
+            </p>
+            <h2
+              className="mt-4 text-2xl sm:text-3xl"
+              style={{ fontFamily: "var(--font-display-cinzel)" }}
+            >
+              Plan your day
+            </h2>
+            <p className="mt-3 text-sm text-[color:var(--bone)]/70">
+              Schedule, details, and anything guests might need.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-8 grid max-w-5xl gap-4 sm:grid-cols-3">
+            {tiles.map((card) => (
+              <div
+                key={card.title}
+                className="rounded-2xl border border-white/10 p-5"
+                style={{
+                  background: `linear-gradient(180deg, ${card.tone}, rgba(14,13,14,0.55))`,
+                }}
+              >
+                <p
+                  className="text-lg text-[color:var(--bright-gold)]"
+                  style={{ fontFamily: "var(--font-display-cinzel)" }}
+                >
+                  {card.title}
+                </p>
+                <p className="mt-2 text-sm text-[color:var(--bone)]/75">{card.desc}</p>
+
+                <div className="mt-4">
+                  <a
+                    href="#"
+                    className="text-xs tracking-[0.25em] text-[color:var(--bone)]/80 hover:text-[color:var(--bright-gold)]"
+                  >
+                    COMING SOON →
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <footer className="text-center text-xs tracking-[0.35em] text-[color:var(--bone)]/40">
+          © {new Date().getFullYear()} • Leo &amp; Blaine
+        </footer>
       </div>
     </main>
   );
