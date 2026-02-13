@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen px-4 py-10">
       <div className="mx-auto w-full max-w-5xl space-y-8">
-        {/* HERO: Framed card (keep this as your “Save the Date” centerpiece) */}
+        {/* HERO: Framed card (title / mood only) */}
         <section className="relative overflow-hidden rounded-3xl border border-[color:var(--antique-gold)]/40 bg-[color:var(--obsidian)]/70 shadow-2xl">
           {/* subtle “velvet” grain */}
           <div
@@ -28,10 +28,6 @@ export default function HomePage() {
           <div className="pointer-events-none absolute right-6 bottom-6 h-14 w-14 rounded-bl-3xl border-b border-l border-[color:var(--bright-gold)]/50" />
 
           <div className="relative px-6 py-10 sm:px-10 sm:py-14">
-            <p className="text-center text-sm tracking-[0.35em] text-[color:var(--bright-gold)]/90">
-              SAVE THE DATE
-            </p>
-
             <h1
               className="mt-5 text-center text-4xl sm:text-6xl"
               style={{ fontFamily: "var(--font-display-cinzel)" }}
@@ -43,19 +39,38 @@ export default function HomePage() {
               'Til death do us part
             </p>
 
-            {/* Antique gold line break */}
             <div className="mx-auto mt-8 h-px w-40 bg-[color:var(--antique-gold)]/50" />
 
-            <div className="mt-8 text-center">
-              <p className="text-xl text-[color:var(--bright-gold)]">
-                Thursday, October 29th, 2026
-              </p>
-              <p className="mt-2 text-sm tracking-[0.25em] text-[color:var(--bone)]/70">
-                AUSTELL, GEORGIA
-              </p>
+            {/* Keep the whisper at the bottom of the hero */}
+            <p className="mt-10 text-center text-xs tracking-[0.35em] text-[color:var(--bone)]/45">
+              A GRAVE DECISION…
+            </p>
+          </div>
+        </section>
+
+        {/* OPEN: Date/Location + RSVP CTA live outside the framed hero */}
+        <section>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm tracking-[0.35em] text-[color:var(--bright-gold)]/80">
+              SAVE THE DATE
+            </p>
+
+            <h2
+              className="mt-4 text-2xl sm:text-3xl"
+              style={{ fontFamily: "var(--font-display-cinzel)" }}
+            >
+              Thursday, October 29th, 2026
+            </h2>
+
+            <p className="mt-2 text-sm tracking-[0.25em] text-[color:var(--bone)]/70">
+              AUSTELL, GEORGIA
+            </p>
+
+            <div className="mx-auto mt-8 max-w-xl">
+              <div className="divider-ornate" />
             </div>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="/rsvp"
                 className="inline-flex w-full max-w-xs items-center justify-center rounded-xl border border-[color:var(--bright-gold)]/60 bg-[color:var(--antique-gold)]/20 px-6 py-3 text-sm tracking-wide text-[color:var(--bone)] shadow-lg transition hover:bg-[color:var(--antique-gold)]/30"
@@ -64,14 +79,14 @@ export default function HomePage() {
               </a>
             </div>
 
-            <p className="mt-10 text-center text-xs tracking-[0.35em] text-[color:var(--bone)]/45">
-              A GRAVE DECISION…
+            <p className="mt-6 text-xs text-[color:var(--bone)]/55">
+              More details will be added as we get closer to the date.
             </p>
           </div>
         </section>
 
-        {/* OPEN SECTIONS: these are NOT inside the framed card */}
-        <section className="rounded-3xl border border-white/10 bg-black/15 p-6 sm:p-8">
+        {/* OPEN: Feature tiles */}
+        <section>
           <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm tracking-[0.35em] text-[color:var(--bright-gold)]/80">
               QUICK LINKS
@@ -100,17 +115,13 @@ export default function HomePage() {
                   className="text-lg text-[color:var(--bright-gold)]"
                   style={{ fontFamily: "var(--font-display-cinzel)" }}
                 >
-                  {card.title}
+                  <a href="#">
+                    {card.title}
+                  </a>
                 </p>
                 <p className="mt-2 text-sm text-[color:var(--bone)]/75">{card.desc}</p>
 
                 <div className="mt-4">
-                  <a
-                    href="#"
-                    className="text-xs tracking-[0.25em] text-[color:var(--bone)]/80 hover:text-[color:var(--bright-gold)]"
-                  >
-                    COMING SOON →
-                  </a>
                 </div>
               </div>
             ))}
