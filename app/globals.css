@@ -23,11 +23,14 @@ html,
 body {
   height: 100%;
 }
-
+/*            radial-gradient(1200px 100px at 50% 5%, rgba(217, 169, 97, 0.12), transparent 60%)
+              radial-gradient([width]px [height]px at [horizontal]% [vertical]%, color, if transparent < 100% = color will have less visibility)
+              gold on the top, purple on the left,  green on the bottom, purple on the right */
 body {
-  background: radial-gradient(1200px 600px at 50% -20%, rgba(217, 169, 97, 0.12), transparent 60%),
-              radial-gradient(900px 500px at 10% 20%, rgba(84, 45, 85, 0.16), transparent 55%),
-              radial-gradient(900px 500px at 90% 30%, rgba(53, 74, 40, 0.14), transparent 55%),
+  background: radial-gradient(980px 260px at 50% 14%, rgba(217, 169, 97, 0.2), transparent 50%),
+              radial-gradient(1000px 400px at 30% 30%, rgba(84, 45, 85, 0.3), transparent 60%),
+              radial-gradient(900px 500px at 50% 50%, rgba(53, 74, 40, 0.3), transparent 70%),
+              radial-gradient(1000px 400px at 70% 30%, rgba(84, 45, 85, 0.3), transparent 60%),
               var(--obsidian);
   color: var(--bone);
   font-family: var(--font-body-inter), system-ui, sans-serif;
