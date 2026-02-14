@@ -2,7 +2,6 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import { POST } from "../api/rsvp/route";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
@@ -58,10 +57,19 @@ export default function RsvpPage() {
 
         const data = await res.json().catch(() => null);
 
-        if (!res.ok || !data?.ok) {
-            setSubmitState("error");
-            setErrorMessage(data?.error ?? "Something went wrong. Please try again.");
-            return;
+        if (!data?.ok) {
+          console.error("RSVP submit failed", {
+            status: res.status,
+            requestId: data?.requestId, 
+            error: data?.error,
+          });
+          setSubmitState("error");
+          setErrorMessage(data?.error ?? "Something went wrong. Please try again.");
+          return;
+        }
+
+        if (data?.requestId) {
+          console.log("RSVP submitted", { requestId: data.requestId });
         }
 
         setSubmitState("success");
@@ -191,7 +199,7 @@ export default function RsvpPage() {
                           name="attendance"
                           value="yes"
                           checked={attendance === "yes"}
-                          onChange={() => setAttendance("yes")}
+                          onChange={(e) => setAttendance(e.target.value as "yes" | "no")}
                         />
                         <span className="text-[color:var(--bone)]/90">Yes</span>
                       </label>
@@ -202,7 +210,7 @@ export default function RsvpPage() {
                           name="attendance"
                           value="no"
                           checked={attendance === "no"}
-                          onChange={() => setAttendance("no")}
+                          onChange={(e) => setAttendance(e.target.value as "yes" | "no")}
                         />
                         <span className="text-[color:var(--bone)]/90">No</span>
                       </label>

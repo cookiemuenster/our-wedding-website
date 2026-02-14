@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/db";
-import { json } from "stream/consumers";
+import { success, failure } from "@/lib/api-response";
+import { log } from "@/lib/logger";
 
 /**
  * A small helper to validate strings safely.
@@ -18,8 +18,15 @@ function asNonEmptyString(value: unknown, maxLen = 120) {
  * Accepts RSVP form submissions and stores them in Supabase.
  */
 export async function POST(req: Request) {
+    const requestId = crypto.randomUUID();
+
     try {
-        const body = await req.json();
+        const body = await req.json().catch(() => null);
+
+        if (!body || typeof body !== "object") {
+            log.warn("rsvp.invalid_json", { requestId });
+            return failure(requestId, "Invalid request.", 400);
+        }
 
         /**
         * Honeypot anti-spam field:
@@ -27,9 +34,10 @@ export async function POST(req: Request) {
         * - Humans won't fill it out
         * - Many bots will, so we silently reject
         */
-        const honeypot = typeof body.website === "string" ? body.website.trim() : "";
+        const honeypot = typeof (body as any).website === "string" ? (body as any).website.trim() : "";
         if (honeypot) {
-            return NextResponse.json({ ok: true}, { status: 200});
+            log.info("rsvp.honeypot_triggered", { requestId });
+            return success(requestId);
         }
 
         //Required fields
@@ -39,7 +47,7 @@ export async function POST(req: Request) {
 
         //Attandance stored as boolean
         const attendance =
-            body.attendance === "yes" ? true : body.attandance === "no" ? false : null;
+            body.attendance === "yes" ? true : body.attendance === "no" ? false : null;
         
         // guestCount: coerce to int, clamp to a reasonable range
         const guestCountRaw =
@@ -57,31 +65,47 @@ export async function POST(req: Request) {
 
         //Basic validation
         if (!firstName || !lastName || !email || attendance === null) {
-            return NextResponse.json(
-                {
-                    ok: false,
-                    error:
-                    "Missing required fields. Please provide first name, last name, email and attendance."
-                },
-                { status: 400 }
-            );
+            log.warn("rsvp.validation_failed", {
+                requestId,
+                hasFirstName: !!firstName,
+                hasLastName: !!lastName,
+                hasEmail: !!email,
+                attendance,
+                guestCount,
+            });
+            return failure(
+                requestId, 
+                "Missing required fields. Please provide first name, last name, email and attendance.", 
+                400);
         }
 
         //Email check (prevents "obvious junk")
         if (!email.includes("@") || email.length < 5) {
-            return NextResponse.json(
-                { ok: false, error: "Please enter a  valid email address."},
-                { status: 400 }
+            log.warn("rsvp.invalid_email", {
+                requestId,
+                guestCount,
+                attendance
+            });
+            return failure(
+                requestId,
+                "Please enter a  valid email address.",
+                400
             );
         }
 
-        const supaBase = getSupabaseAdmin();
+        log.info("rsvp.insert_attempt", {
+            requestId,
+            guestCount,
+            attendance
+        });
+
+        const supabase = getSupabaseAdmin();
 
         /**
         * Insert into the rsvps table.
         * Column names match the SQL schema provided earlier.
         */
-       const { error } = await supaBase.from("rsvps").insert({
+       const { error } = await supabase.from("rsvps").insert({
         first_name: firstName,
         last_name: lastName,
         email,
@@ -92,19 +116,31 @@ export async function POST(req: Request) {
        });
 
        if (error) {
-        console.error("Supbase insert error:", error);
-        return NextResponse.json(
-            { ok: false, error: "Failed to save RSVP. Please try again." },
-            { status: 500 }
+        log.error("rsvp.supabase_insert_error", {
+            requestId,
+            code: (error as any).code,
+            message: error.message
+        });
+        return failure(
+            requestId, 
+            "Failed to save RSVP. Please try again.",
+            500
         );
        }
 
-       return NextResponse.json({ ok: true }, { status: 200 });
+       log.info("rsvp.success", {
+        requestId,
+        guestCount,
+        attendance
+       });
+       
+       // Optional: return requestId so you can correlate client errors with server logs
+       return success(requestId);
     } catch (err) {
-        console.error("RSVP route error:", err);
-        return NextResponse.json(
-            { ok: false, error: "Invalid request." },
-            { status: 400 }
-        );
+        log.error("rsvp.unhandled_error", {
+            requestId,
+            err: err instanceof Error ? err.message : String(err)
+        });
+        return failure(requestId, "Invalid request.", 400);
     }
 }
