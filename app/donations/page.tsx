@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function DonationPage() {
     return (
@@ -22,18 +23,36 @@ export default function DonationPage() {
                 </header>
 
                 <section className="rounded-3xl border border-white/10 bg-black/10 p-6 sm:p-8 text-center"> {/*rounded-3xl border border-white/10 bg-black/10 p-6 sm:p-8 text-center*/}
-                    <p className="text-sm text-[color:var(--bone)]/70"> {/*text-sm text-[color:var(--bone)]/70*/}
-                        More details will be available as we get closer to the date.
-                    </p>
-
-                    <div className="mt-8"> {/*mt-8*/}
-                        <Link
-                            href="/"
-                            className="text-sm tracking-[0.2em] text-[color:var(--bright-gold)]/90 hover:text-[color:var(--bright-gold)]"
-                        > {/*text-sm tracking-[0.2em] text-[color:var(--bright-gold)]/90 hover:text-[color:var(--bright-gold)]*/}
-                            ← HOME
-                        </Link>
+                  <div className="flex flex-col items-center" >
+                    <div className="mt-6 flex justify-center rounded-2xl border border-[color:var(--antique-gold)]/25 bg-black/20 p-6">
+                      <Image
+                        src="/images/zelle_email_qrcode.png"
+                        alt="Zelle QR Code"
+                        width={220}
+                        height={220}
+                        className="rounded-lg border border-[color:var(--antique-gold)]/30"
+                      />
                     </div>
+                    
+                    <p className="mt-2 text-center">
+                      Zelle: seafoodgarden@gmail.com
+                    </p>
+                    <p className="mt-4 text-center text-[color:var(--bone)]/75">
+                      Scan with your banking app to send a gift through Zelle.
+                    </p>
+                  </div>
+
+                  <div className="mt-8"> {/*mt-8*/}
+                    <p className="text-sm text-[color:var(--bone)]/70 p-9"> {/*text-sm text-[color:var(--bone)]/70*/}
+                    More details will be available as we get closer to the date.
+                    </p>
+                    <Link
+                        href="/"
+                        className="text-sm tracking-[0.2em] text-[color:var(--bright-gold)]/90 hover:text-[color:var(--bright-gold)]"
+                      > {/*text-sm tracking-[0.2em] text-[color:var(--bright-gold)]/90 hover:text-[color:var(--bright-gold)]*/}
+                        ← HOME
+                    </Link>
+                  </div>
                 </section>
             </div>
         </main>
