@@ -98,8 +98,6 @@ export default async function AdminRsvpPage({
   // Fetching RSVPs
   const supabase = getSupabaseAdmin();
 
-  console.log("Admin RSVP page is fetching from database.");
-
   const { data, error } = await supabase
     .from("rsvps")
     .select("id, created_at, first_name, last_name, email, attendance, guest_count, dietary_notes, message")

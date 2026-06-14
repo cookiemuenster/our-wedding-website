@@ -18,94 +18,95 @@ function asNonEmptyString(value: unknown, maxLen = 120) {
  * Accepts RSVP form submissions and stores them in Supabase.
  */
 export async function POST(req: Request) {
-    const requestId = crypto.randomUUID();
+  const requestId = crypto.randomUUID();
 
-    try {
-        const body = await req.json().catch(() => null);
+  try {
+      const body = await req.json().catch(() => null);
 
-        if (!body || typeof body !== "object") {
-            log.warn("rsvp.invalid_json", { requestId });
-            return failure(requestId, "Invalid request.", 400);
-        }
+      if (!body || typeof body !== "object") {
+        log.warn("rsvp.invalid_json", { requestId });
+        return failure(requestId, "Invalid request.", 400);
+      }
 
-        /**
-        * Honeypot anti-spam field:
-        * - The form includes a hidden field named "website"
-        * - Humans won't fill it out
-        * - Many bots will, so we silently reject
-        */
-        const honeypot = typeof (body as any).website === "string" ? (body as any).website.trim() : "";
-        if (honeypot) {
-            log.info("rsvp.honeypot_triggered", { requestId });
-            return success(requestId);
-        }
+      /**
+      * Honeypot anti-spam field:
+      * - The form includes a hidden field named "website"
+      * - Humans won't fill it out
+      * - Many bots will, so we silently reject
+      */
+      const honeypot = typeof (body as any).website === "string" ? (body as any).website.trim() : "";
+      if (honeypot) {
+          log.info("rsvp.honeypot_triggered", { requestId });
+          return success(requestId);
+      }
 
-        //Required fields
-        const firstName = asNonEmptyString(body.firstName, 80);
-        const lastName = asNonEmptyString(body.lastName, 80);
-        const email = asNonEmptyString(body.email, 200);
+      //Required fields
+      const firstName = asNonEmptyString(body.firstName, 80);
+      const lastName = asNonEmptyString(body.lastName, 80);
+      const email = asNonEmptyString(body.email, 200);
 
-        //Attandance stored as boolean
-        const attendance =
-            body.attendance === "yes" ? true : body.attendance === "no" ? false : null;
+      //Attandance stored as boolean
+      const attendance =
+        body.attendance === "yes" ? true : body.attendance === "no" ? false : null;
         
-        // guestCount: coerce to int, clamp to a reasonable range
-        const guestCountRaw =
-            typeof body.guestCount === "number"
-                ? body.guestCount
-                : parseInt(String(body.guestCount ?? "1"), 10);
+      // guestCount: coerce to int, clamp to a reasonable range
+      const guestCountRaw =
+        typeof body.guestCount === "number"
+          ? body.guestCount
+          : parseInt(String(body.guestCount ?? "1"), 10);
         
-        const guestCount = Number.isFinite(guestCountRaw)
-            ? Math.min(Math.max(guestCountRaw, 0), 10)
-            : 0;
+      const guestCount = Number.isFinite(guestCountRaw)
+        ? Math.min(Math.max(guestCountRaw, 0), 10)
+        : 0;
 
-        //Optional fields
-        const dietaryNotes = asNonEmptyString(body.dietaryNotes, 500);
-        const message = asNonEmptyString(body.message, 500);
+      //Optional fields
+      const dietaryNotes = asNonEmptyString(body.dietaryNotes, 500);
+      const message = asNonEmptyString(body.message, 500);
 
-        //Basic validation
-        if (!firstName || !lastName || !email || attendance === null) {
-            log.warn("rsvp.validation_failed", {
-                requestId,
-                hasFirstName: !!firstName,
-                hasLastName: !!lastName,
-                hasEmail: !!email,
-                attendance,
-                guestCount,
-            });
-            return failure(
-                requestId, 
-                "Missing required fields. Please provide first name, last name, email and attendance.", 
-                400);
-        }
-
-        //Email check (prevents "obvious junk")
-        if (!email.includes("@") || email.length < 5) {
-            log.warn("rsvp.invalid_email", {
-                requestId,
-                guestCount,
-                attendance
-            });
-            return failure(
-                requestId,
-                "Please enter a  valid email address.",
-                400
-            );
-        }
-
-        log.info("rsvp.insert_attempt", {
-            requestId,
-            guestCount,
-            attendance
+      //Basic validation
+      if (!firstName || !lastName || !email || attendance === null) {
+        log.warn("rsvp.validation_failed", {
+          requestId,
+          hasFirstName: !!firstName,
+          hasLastName: !!lastName,
+          hasEmail: !!email,
+          attendance,
+          guestCount,
         });
+        return failure(
+          requestId, 
+          "Missing required fields. Please provide first name, last name, email and attendance.", 
+          400);
+      }
 
-        const supabase = getSupabaseAdmin();
+      //Email check (prevents "obvious junk")
+      if (!email.includes("@") || email.length < 5) {
+        log.warn("rsvp.invalid_email", {
+          requestId,
+          guestCount,
+          attendance
+        });
+        return failure(
+          requestId,
+          "Please enter a  valid email address.",
+          400
+       );
+      }
 
-        /**
-        * Insert into the rsvps table.
-        * Column names match the SQL schema provided earlier.
-        */
-       const { error } = await supabase.from("rsvps").insert({
+      log.info("rsvp.insert_attempt", {
+        requestId,
+        guestCount,
+        attendance
+      });
+
+      const supabase = getSupabaseAdmin();
+
+      /**
+      * Insert into the rsvps table.
+      * Column names match the SQL schema provided earlier.
+      */
+      
+      const { error } = await supabase.from("rsvps").insert({
         first_name: firstName,
         last_name: lastName,
         email,
@@ -113,9 +114,9 @@ export async function POST(req: Request) {
         guest_count: guestCount,
         dietary_notes: dietaryNotes,
         message,
-       });
+      });
 
-       if (error) {
+      if (error) {
         log.error("rsvp.supabase_insert_error", {
             requestId,
             code: (error as any).code,
@@ -126,16 +127,16 @@ export async function POST(req: Request) {
             "Failed to save RSVP. Please try again.",
             500
         );
-       }
+      }
 
-       log.info("rsvp.success", {
+      log.info("rsvp.success", {
         requestId,
         guestCount,
         attendance
-       });
+      });
        
-       // Optional: return requestId so you can correlate client errors with server logs
-       return success(requestId);
+      // Optional: return requestId so you can correlate client errors with server logs
+      return success(requestId);
     } catch (err) {
         log.error("rsvp.unhandled_error", {
             requestId,
