@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import { z } from "zod";
-import { createClient } from "@supabase/supabase-js";
 
 export const runtime = "nodejs";
 
@@ -18,3 +16,17 @@ const BodySchema = z.object({
         })
     ).min(1).max(25),
 });
+
+export async function POST(request : NextRequest) {
+  try {
+    const json = await request.json();
+    BodySchema.parse(json);
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Invalid upload finalize request." },
+      { status: 400 }
+    );
+  }
+}
