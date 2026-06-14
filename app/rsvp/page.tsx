@@ -14,7 +14,7 @@ export default function RsvpPage() {
     const[lastName, setLastName] = useState("");
     const[email, setEmail] = useState("");
     const[attendance, setAttendance] = useState<"yes" | "no" | "">("");
-    const[guestCount, setGuestCount] = useState<number>(1);
+    const[guestCount, setGuestCount] = useState<number>(0);
     const[dietaryNotes, setDietaryNotes] = useState("");
     const[message, setMessage] = useState("");
 
@@ -220,14 +220,14 @@ export default function RsvpPage() {
                   <Field label="Guest count">
                     <input
                       type="number"
-                      min={1}
+                      min={0}
                       max={10}
                       value={guestCount}
-                      onChange={(e) => setGuestCount(parseInt(e.target.value || "1", 10))}
+                      onChange={(e) => setGuestCount(parseInt(e.target.value || "0", 10))}
                       className="w-full rounded-2xl border border-[color:var(--antique-gold)]/35 bg-black/25 px-4 py-3 text-[color:var(--bone)] focus:outline-none focus:ring-2 focus:ring-[color:var(--bright-gold)]/40"
                     />
                     <p className="mt-2 text-xs text-[color:var(--bone)]/60">
-                      (If you need more than 10, just contact us.)
+                      (If you need more than 1 rsvp, please contact us.)
                     </p>
                   </Field>
 

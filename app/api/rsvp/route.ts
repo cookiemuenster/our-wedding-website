@@ -56,8 +56,8 @@ export async function POST(req: Request) {
                 : parseInt(String(body.guestCount ?? "1"), 10);
         
         const guestCount = Number.isFinite(guestCountRaw)
-            ? Math.min(Math.max(guestCountRaw, 1), 10)
-            : 1;
+            ? Math.min(Math.max(guestCountRaw, 0), 10)
+            : 0;
 
         //Optional fields
         const dietaryNotes = asNonEmptyString(body.dietaryNotes, 500);
