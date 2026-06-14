@@ -4,6 +4,9 @@
 import Link from "next/link";
 import { getSupabaseAdmin } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 /**
  * This page uses a shared secret token (ADMIN_TOKEN) to gate access:
  *   /admin/rsvps?token=YOUR_ADMIN_TOKEN
@@ -94,6 +97,8 @@ export default async function AdminRsvpPage({
 
   // Fetching RSVPs
   const supabase = getSupabaseAdmin();
+
+  console.log("Admin RSVP page is fetching from database.");
 
   const { data, error } = await supabase
     .from("rsvps")
