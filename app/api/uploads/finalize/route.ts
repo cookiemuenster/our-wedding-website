@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 
-export const runtime = "node.js";
+export const runtime = "nodejs";
 
 const BodySchema = z.object({
     code: z.string().min(1),
