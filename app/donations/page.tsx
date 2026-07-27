@@ -17,14 +17,14 @@ export default function DonationPage() {
                         Gifts &amp; Well-Wishes
                     </h1>
 
-                    <div className="mx-auto mt-8 max-x-xl"> {/*mx-auto mt-8 max-w-xl*/}
+                    <div className="mx-auto mt-8 max-w-xl"> {/*mx-auto mt-8 max-w-xl*/}
                         <div className="divider-ornate"/> {/*divider-ornate*/}
                     </div>
                 </header>
 
                 <section className="rounded-3xl border border-white/10 bg-black/10 p-6 sm:p-8 text-center"> {/*rounded-3xl border border-white/10 bg-black/10 p-6 sm:p-8 text-center*/}
                   <div className="flex flex-col items-center" >
-                    <div className="mt-6 flex justify-center rounded-2xl border border-[color:var(--antique-gold)]/25 bg-black/20 p-6">
+                    <div className="rounded-2xl border border-[color:var(--antique-gold)]/25 bg-black/20 p-6">
                       <Image
                         src="/images/zelle_email_qrcode.png"
                         alt="Zelle QR Code"
@@ -43,7 +43,7 @@ export default function DonationPage() {
                   </div>
 
                   <div className="mt-8"> {/*mt-8*/}
-                    <p className="text-sm text-[color:var(--bone)]/70 p-9"> {/*text-sm text-[color:var(--bone)]/70*/}
+                    <p className="mt-12 text-sm text-[color:var(--bone)]/70 p-9"> {/*text-sm text-[color:var(--bone)]/70*/}
                     More details will be available as we get closer to the date.
                     </p>
                     <Link

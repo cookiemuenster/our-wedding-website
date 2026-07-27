@@ -24,6 +24,18 @@ export default function ItineraryPage() {
                 </header>
 
                 <section className="rounded-3xl border border-white/10 bg-black/10 p-6 sm:p-8 text-center">
+                    <div className="mt-8"></div>
+                    <p className="text-2xl text-[color:var(--bone)]/70">
+                      Palmer's Eatery
+                    </p>
+                    <p className="mt-2 text-xl text-[color:var(--bone)]/70">
+                      2710 Jefferson St, Austell, GA 30168
+                    </p>
+                    <div className="mt-16"></div>
+                    <p className="text-2xl text-[color:var(--bone)]/70">
+                      Ceremony starts @ 2pm
+                    </p>
+                    <div className="mt-16"></div>
                     <p className="text-sm text-[color:var(--bone)]/70">
                         More details will be added as we get closer to the date.
                     </p>
